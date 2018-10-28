@@ -17,13 +17,29 @@ export default class App extends Component {
       mlresults: {
         payload: ["waiting for picture"]
       },
-      ADN: []
+      ADN: [],
+      cameraType : 'front',
+      mirrorMode : true,
     }
     this.getJWTToken = this.getJWTToken.bind(this);
     this.takePicture = this.takePicture.bind(this);
     this.speakResults = this.speakResults.bind(this);
 
   }
+  // changeCameraType() {
+  //   if (this.state.cameraType === 'back') {
+  //     this.setState({
+  //       cameraType: 'front',
+  //       mirrorMode: true
+  //     });
+  //   } else {
+  //     this.setState({
+  //       cameraType: 'back',
+  //       mirrorMode: false
+  //     });
+  //   }
+  // }
+
 
   takePicture(camera) {
     //camera.pausePreview(); // there is curretly a bug with pausePreview which causes takePictureAsync to fail if you call it on Android pre taking a picture
@@ -121,10 +137,6 @@ export default class App extends Component {
     ADN = this.state.mlresults.payload.filter((element) =>
       element.classification.score > 0.9);
     console.log(ADN);  
-    
-    
-    
-      
       ADN.map((element) => {
         console.log("this is ADN.map");
         if (element.displayName != "Face" && element.displayName != "Black" && element.displayName != "Red" ){
@@ -155,8 +167,16 @@ export default class App extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <RNCamera ref={ref => { this.camera = ref; }} style={styles.preview}>
-          <CameraButton onClick={() => { this.takePicture(this.camera) }} />
+        <RNCamera 
+        type={this.state.cameraType} mirrorImage={this.state.mirrorMode}
+           ref={ref => { this.camera = ref; }} style={styles.preview}>
+          {/* { <Text
+            style={styles.welcome}
+            onPress={this.changeCameraType.bind(this)}
+          >
+            [SWITCH O ROONEY]
+          </Text> } */}
+          
         </RNCamera>
       </View>
     );
@@ -173,7 +193,8 @@ const styles = StyleSheet.create({
   welcome: {
     fontSize: 20,
     textAlign: 'center',
-    margin: 10,
+    
+    backgroundColor: 'white'
   },
   instructions: {
     textAlign: 'center',
