@@ -19,7 +19,7 @@ export default class App extends Component {
       },
       ADN: [],
       cameraType : 'front',
-      mirrorMode : true,
+      mirrorMode : false,
     }
     this.getJWTToken = this.getJWTToken.bind(this);
     this.takePicture = this.takePicture.bind(this);
@@ -55,7 +55,10 @@ export default class App extends Component {
       .then(data => {
         // data is your base64 string
         console.log("taking picture")
-        this.identifyImage(data.base64);
+        let base64image = data.base64
+        console.log("base64 image")
+        this.identifyImage(base64image);
+        console.log("after this.identifyimage")
 
       })
       .catch((e) => {
@@ -75,9 +78,9 @@ export default class App extends Component {
     this.setState({ initialTokenTime: Date.now() })
   }
   getJWTToken() {
-    //const assertion = ""
+    
     axios
-      .get("http://10.1.10.184:8081")
+      .get("http://192.168.1.122:8081/")
       .then((response) => {
         const assertion = response.data
         console.log(response)
@@ -108,8 +111,9 @@ export default class App extends Component {
         },
       }
     };
-
+    console.log("sending")
     axios({
+      
       method: 'post',
       url: "https://automl.googleapis.com/v1beta1/projects/totemic-ground-219514/locations/us-central1/models/ICN6280896592581654906:predict",
       headers: {
@@ -120,7 +124,7 @@ export default class App extends Component {
     })
       .then((response) => {
         this.setState({ mlresults: response.data })
-
+        console.log("setting mlresutls")
       })
       .then(() => {
         this.speakResults()
@@ -135,7 +139,7 @@ export default class App extends Component {
     console.log("speak those results");
     let ADN = [];
     ADN = this.state.mlresults.payload.filter((element) =>
-      element.classification.score > 0.9);
+      element.classification.score > 0.5);
     console.log(ADN);  
       ADN.map((element) => {
         console.log("this is ADN.map");
@@ -156,7 +160,9 @@ export default class App extends Component {
           else {
             Tts.speak(element.displayName)
           }
+          
         }  
+        
       })
     
 
