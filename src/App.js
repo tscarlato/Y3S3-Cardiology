@@ -65,7 +65,7 @@ export default class App extends Component {
       .then(data => {
         // data is your base64 string
         console.log("taking picture")
-        this.identifyImage(data.base64);
+        this.identifyImage(data.base64, camera);
       })
       .catch((e) => {
         // e is the error code
@@ -82,12 +82,12 @@ export default class App extends Component {
     //onload
     this.getJWTToken()
     this.setState({ initialTokenTime: Date.now() })
-    this.state.shouldBeAwake
+    this.changeKeepAwake(true)
   }
   getJWTToken() {
     
     axios
-      .get("http://192.168.1.122:8081/")
+      .get("http://192.168.1.70:8081/")
       .then((response) => {
         const assertion = response.data
         console.log(response)
@@ -109,7 +109,7 @@ export default class App extends Component {
 
   }
 
-  identifyImage(imageData) {
+  identifyImage(imageData, camera) {
     console.log("identifying image!")
     const payload = {
       "payload": {
@@ -135,12 +135,14 @@ export default class App extends Component {
       })
       .then(() => {
         this.speakResults()
+        this.takePicture(this.camera)
 
       })
       .catch((error) => {
 
         console.log(error.response)
       })
+      
   }
   speakResults() {
     console.log("speak those results");
@@ -183,8 +185,7 @@ export default class App extends Component {
         <RNCamera 
         type={this.state.cameraType} mirrorImage={this.state.mirrorMode}
            ref={ref => { this.camera = ref; }} style={styles.preview}>
-          <CameraButton onClick={() => { setInterval(() => {this.takePicture(this.camera);}, 15000);}}
-          />
+          <CameraButton onClick={() => {this.takePicture(this.camera)}}/>
           
         </RNCamera>
       </View>
