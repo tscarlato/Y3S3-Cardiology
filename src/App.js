@@ -22,6 +22,7 @@ export default class App extends Component {
       cameraType : 'front',
       mirrorMode : false,
       shouldBeAwake: true,
+      playSoundOnCapture: true,
     }
     this.getJWTToken = this.getJWTToken.bind(this);
     this.takePicture = this.takePicture.bind(this);
@@ -65,6 +66,7 @@ export default class App extends Component {
       .then(data => {
         // data is your base64 string
         console.log("taking picture")
+        Tts.speak("shhh")
         this.identifyImage(data.base64, camera);
       })
       .catch((e) => {
@@ -135,7 +137,8 @@ export default class App extends Component {
       })
       .then(() => {
         this.speakResults()
-        this.takePicture(this.camera)
+        this.takePicture(this.camera) 
+        
 
       })
       .catch((error) => {
@@ -183,9 +186,9 @@ export default class App extends Component {
     return (
       <View style={styles.container}>
         <RNCamera 
-        type={this.state.cameraType} mirrorImage={this.state.mirrorMode}
+        type={this.state.cameraType} mirrorImage={this.state.mirrorMode} 
            ref={ref => { this.camera = ref; }} style={styles.preview}>
-          <CameraButton onClick={() => {this.takePicture(this.camera)}}/>
+          <CameraButton onClick={() => {this.takePicture(this.camera)}} playSoundOnCapture={this.state.playSoundOnCapture}/>
           
         </RNCamera>
       </View>
