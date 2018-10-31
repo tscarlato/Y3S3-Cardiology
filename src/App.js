@@ -4,6 +4,7 @@ import { RNCamera } from 'react-native-camera';
 import CameraButton from './CameraButton';
 import axios from 'axios';
 import Tts from 'react-native-tts';
+import KeepAwake from 'react-native-keep-awake';
 
 export default class App extends Component {
   constructor(props) {
@@ -20,6 +21,7 @@ export default class App extends Component {
       ADN: [],
       cameraType : 'front',
       mirrorMode : false,
+      shouldBeAwake: true,
     }
     this.getJWTToken = this.getJWTToken.bind(this);
     this.takePicture = this.takePicture.bind(this);
@@ -39,9 +41,17 @@ export default class App extends Component {
   //     });
   //   }
   // }
-
+  changeKeepAwake(shouldBeAwake) {
+    
+    if (shouldBeAwake) {
+      KeepAwake.activate();
+    } else {
+      KeepAwake.deactivate();
+    }
+  }
 
   takePicture(camera) {
+    
     //camera.pausePreview(); // there is curretly a bug with pausePreview which causes takePictureAsync to fail if you call it on Android pre taking a picture
     this.setState({ loading: true });
 
@@ -55,11 +65,7 @@ export default class App extends Component {
       .then(data => {
         // data is your base64 string
         console.log("taking picture")
-        let base64image = data.base64
-        console.log("base64 image")
-        this.identifyImage(base64image);
-        console.log("after this.identifyimage")
-
+        this.identifyImage(data.base64);
       })
       .catch((e) => {
         // e is the error code
@@ -76,6 +82,7 @@ export default class App extends Component {
     //onload
     this.getJWTToken()
     this.setState({ initialTokenTime: Date.now() })
+    this.state.shouldBeAwake
   }
   getJWTToken() {
     
@@ -139,7 +146,7 @@ export default class App extends Component {
     console.log("speak those results");
     let ADN = [];
     ADN = this.state.mlresults.payload.filter((element) =>
-      element.classification.score > 0.5);
+      element.classification.score > 0.9);
     console.log(ADN);  
       ADN.map((element) => {
         console.log("this is ADN.map");
@@ -176,7 +183,8 @@ export default class App extends Component {
         <RNCamera 
         type={this.state.cameraType} mirrorImage={this.state.mirrorMode}
            ref={ref => { this.camera = ref; }} style={styles.preview}>
-          <CameraButton onClick={() => { this.takePicture(this.camera)}}/>
+          <CameraButton onClick={() => { setInterval(() => {this.takePicture(this.camera);}, 15000);}}
+          />
           
         </RNCamera>
       </View>
