@@ -60,13 +60,14 @@ export default class App extends Component {
     const options = {
       base64: true
     };
-
+    
+    Tts.speak("klurk")
     // Get the base64 version of the image
     camera.takePictureAsync(options)
       .then(data => {
         // data is your base64 string
         console.log("taking picture")
-        Tts.speak("shhh")
+        
         this.identifyImage(data.base64, camera);
       })
       .catch((e) => {
