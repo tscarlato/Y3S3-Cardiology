@@ -7,17 +7,21 @@ import { StyleSheet, Text, View, Dimensions, } from 'react-native';
 export default class Welcome extends Component {
     render()
     {
-        return (stuf);
+        return (
+            <View style={styles.welcomePage}>
+                <Text>Welcome to Card Whisperer</Text>
+            </View>
+        );
     }
 }
 
 const styles = StyleSheet.create({
-    captureButton: {
+    welcomPage: {
       flex: 1,
       justifyContent: 'flex-end',
       alignItems: 'center',
-      height: Dimensions.get('window').height,
+      height: '100%',
       width: Dimensions.get('window').width,
-      backgroundColor: 'rgba(0,0,0,0)'
+      backgroundColor: 'rgba(255,0,0,0)'
     }
 });

@@ -187,12 +187,13 @@ export default class App extends Component {
   render() {
     return (
       <View style={styles.container}>
+      <Welcome>
         <RNCamera 
         type={this.state.cameraType} mirrorImage={this.state.mirrorMode} 
            ref={ref => { this.camera = ref; }} style={styles.preview}>
           <CameraButton onClick={() => {this.takePicture(this.camera)}} />
-          
         </RNCamera>
+        </Welcome>
       </View>
     );
   }
