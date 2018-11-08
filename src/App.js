@@ -5,7 +5,7 @@ import CameraButton from './CameraButton';
 import axios from 'axios';
 import Tts from 'react-native-tts';
 import KeepAwake from 'react-native-keep-awake';
-import Welcome from './Welcome'
+
 
 export default class App extends Component {
   constructor(props) {
@@ -91,7 +91,7 @@ export default class App extends Component {
   getJWTToken() {
     
     axios
-      .get("http://192.168.1.61:8081/")
+      .get("http://192.168.1.92:8080/")
       .then((response) => {
         const assertion = response.data
         console.log(response)
@@ -187,13 +187,13 @@ export default class App extends Component {
   render() {
     return (
       <View style={styles.container}>
-      <Welcome>
+     
         <RNCamera 
         type={this.state.cameraType} mirrorImage={this.state.mirrorMode} 
            ref={ref => { this.camera = ref; }} style={styles.preview}>
           <CameraButton onClick={() => {this.takePicture(this.camera)}} />
         </RNCamera>
-        </Welcome>
+        
       </View>
     );
   }
