@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Dimensions, } from 'react-native';
+import { StyleSheet, Alert, Modal, TouchableOpacity, Text, View, Dimensions, } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import CameraButton from './CameraButton';
 import axios from 'axios';
 import Tts from 'react-native-tts';
 import KeepAwake from 'react-native-keep-awake';
+import PauseButton from './PauseButton';
 
 
 export default class App extends Component {
@@ -23,11 +24,12 @@ export default class App extends Component {
       cameraType : 'front',
       mirrorMode : false,
       shouldBeAwake: true,
-      playSoundOnCapture: true,
+      cameraPause: true,
     }
     this.getJWTToken = this.getJWTToken.bind(this);
     this.takePicture = this.takePicture.bind(this);
     this.speakResults = this.speakResults.bind(this);
+    this.pauseCamera = this.pauseCamera.bind(this);
 
   }
   // changeCameraType() {
@@ -43,6 +45,7 @@ export default class App extends Component {
   //     });
   //   }
   // }
+ 
   changeKeepAwake(shouldBeAwake) {
     
     if (shouldBeAwake) {
@@ -51,6 +54,8 @@ export default class App extends Component {
       KeepAwake.deactivate();
     }
   }
+
+ 
 
   takePicture(camera) {
     
@@ -82,6 +87,17 @@ export default class App extends Component {
       })
   }
 
+  pauseCamera(){
+    //what is this actually doing??
+    if ({loading: true}) {
+      this.setState({loading: false})
+      
+
+    }
+
+    
+  }
+
   componentDidMount() {
     //onload
     this.getJWTToken()
@@ -91,7 +107,7 @@ export default class App extends Component {
   getJWTToken() {
     
     axios
-      .get("http://192.168.1.92:8080/")
+      .get("http://192.168.1.166:8080/")
       .then((response) => {
         const assertion = response.data
         console.log(response)
@@ -178,22 +194,20 @@ export default class App extends Component {
         }  
         
       })
-    
-
-    
   }
 
+//<View >{Alert.alert('How to use Card Whisperer','Hold a playing card over the phone and tap the top half of the screen to start the camera. Wait until your card is read and then hold your next card over the phone. The camera will contnuously take photos unless you tap the bottom half of the screen to pause. Tap the top half of the screen to start the camera again')}</View>
 
   render() {
+    
     return (
       <View style={styles.container}>
-     
-        <RNCamera 
-        type={this.state.cameraType} mirrorImage={this.state.mirrorMode} 
-           ref={ref => { this.camera = ref; }} style={styles.preview}>
-          <CameraButton onClick={() => {this.takePicture(this.camera)}} />
-        </RNCamera>
-        
+          <RNCamera 
+            type={this.state.cameraType} mirrorImage={this.state.mirrorMode} 
+            ref={ref => { this.camera = ref; }} style={styles.preview}>
+           
+            <CameraButton onClick={() => {this.takePicture(this.camera)}}  />
+          </RNCamera>
       </View>
     );
   }
