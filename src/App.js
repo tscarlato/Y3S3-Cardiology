@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+ import React, { Component } from 'react';
 import { StyleSheet, Alert, Modal, TouchableOpacity, Text, View, Dimensions, } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import CameraButton from './CameraButton';
@@ -13,7 +13,7 @@ export default class App extends Component {
     super(props)
 
     this.state = {
-      loading: false,
+      //loading: false,
       bearerToken: [],
       identifiedAs: '',
       initialTokenTime: null,
@@ -29,7 +29,7 @@ export default class App extends Component {
     this.getJWTToken = this.getJWTToken.bind(this);
     this.takePicture = this.takePicture.bind(this);
     this.speakResults = this.speakResults.bind(this);
-    this.pauseCamera = this.pauseCamera.bind(this);
+    
 
   }
   // changeCameraType() {
@@ -87,16 +87,7 @@ export default class App extends Component {
       })
   }
 
-  pauseCamera(){
-    //what is this actually doing??
-    if ({loading: true}) {
-      this.setState({loading: false})
-      
-
-    }
-
-    
-  }
+  
 
   componentDidMount() {
     //onload

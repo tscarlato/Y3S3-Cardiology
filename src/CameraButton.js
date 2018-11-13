@@ -29,8 +29,8 @@ const styles = StyleSheet.create({
       height: box_height,
       
       width: Dimensions.get('window').width,
-      backgroundColor: '#fff4be', 
-      //'rgba(0,0,0,0)'
+      //backgroundColor: '#fff4be', 
+      backgroundColor:'rgba(0,0,0,0)'
     },
     pauseButton: {
     
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
         
        
         width: Dimensions.get('window').width,
-        backgroundColor: '#4242f4', 
-        //'rgba(0,0,0,0)'
+        //backgroundColor: '#4242f4', 
+        backgroundColor:'rgba(0,0,0,0)'
       }
 });
