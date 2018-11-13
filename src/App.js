@@ -1,4 +1,4 @@
- import React, { Component } from 'react';
+import React, { Component } from 'react';
 import { StyleSheet, Alert, Modal, TouchableOpacity, Text, View, Dimensions, } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import CameraButton from './CameraButton';
@@ -13,7 +13,7 @@ export default class App extends Component {
     super(props)
 
     this.state = {
-      //loading: false,
+      loading: false,
       bearerToken: [],
       identifiedAs: '',
       initialTokenTime: null,
@@ -29,7 +29,7 @@ export default class App extends Component {
     this.getJWTToken = this.getJWTToken.bind(this);
     this.takePicture = this.takePicture.bind(this);
     this.speakResults = this.speakResults.bind(this);
-    
+    this.pauseCamera = this.pauseCamera.bind(this);
 
   }
   // changeCameraType() {
@@ -87,7 +87,16 @@ export default class App extends Component {
       })
   }
 
-  
+  pauseCamera(){
+    //what is this actually doing??
+    if ({loading: true}) {
+      this.setState({loading: false})
+      
+
+    }
+
+    
+  }
 
   componentDidMount() {
     //onload
@@ -98,7 +107,7 @@ export default class App extends Component {
   getJWTToken() {
     
     axios
-      .get("http://192.168.1.166:8080/")
+      .get("http://192.168.1.98:8080/")
       .then((response) => {
         const assertion = response.data
         console.log(response)
@@ -196,8 +205,8 @@ export default class App extends Component {
           <RNCamera 
             type={this.state.cameraType} mirrorImage={this.state.mirrorMode} 
             ref={ref => { this.camera = ref; }} style={styles.preview}>
-           
-            <CameraButton onClick={() => {this.takePicture(this.camera)}}  />
+            <CameraButton onClick={() => {this.takePicture(this.camera)}} />
+            <PauseButton onClick={() => {this.pauseCamera(this.camera)}}/>
           </RNCamera>
       </View>
     );
@@ -235,7 +244,3 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   }
 });
-
-
-
-

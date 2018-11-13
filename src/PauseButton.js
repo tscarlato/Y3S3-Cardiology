@@ -14,11 +14,11 @@ export default class PauseButton extends Component {
 
 const styles = StyleSheet.create({
     captureButton: {
-    
-    //   justifyContent: 'flex-end',
-    //   alignItems: 'center',
-      
+      flex: 1,
+      justifyContent: 'flex-end',
+      alignItems: 'center',
+      height: '50%',
       width: Dimensions.get('window').width,
-      backgroundColor: '#588585'
+      backgroundColor: 'rgba(211,48,48,0)'
     }
 });

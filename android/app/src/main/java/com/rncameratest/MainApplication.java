@@ -3,6 +3,8 @@ package com.rncameratest;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.corbt.keepawake.KCKeepAwakePackage;
+import net.no_mad.tts.TextToSpeechPackage;
 import org.reactnative.camera.RNCameraPackage;
 import com.corbt.keepawake.KCKeepAwakePackage;
 import net.no_mad.tts.TextToSpeechPackage;
@@ -27,10 +29,9 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new RNCameraPackage(),
-          new KCKeepAwakePackage(),
-          new TextToSpeechPackage(),
-          new RNCameraPackage()
+            new KCKeepAwakePackage(),
+            new TextToSpeechPackage(),
+            new RNCameraPackage()
       );
     }
 

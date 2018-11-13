@@ -1,5 +1,5 @@
 import React, { Component }  from 'react';
-import { StyleSheet, Image, TouchableHighlight, Dimensions, View } from 'react-native';
+import { StyleSheet, Image, TouchableHighlight, Dimensions } from 'react-native';
 
 var { height } = Dimensions.get('window');
 var box_count = 2;
@@ -8,15 +8,9 @@ export default class CameraButton extends Component {
     render()
     {
         return (
-            <View style={{flex: 1, flexDirection: 'column'}}>
-                <TouchableHighlight onPress={this.props.onClick}  >
-                    <Image style={[styles.box, styles.captureButton]} accessible={true} accessibilityLabel="Take picture"/>
-                </TouchableHighlight>
-                <TouchableHighlight onPress={this.props.onClick}  >
-                    <Image style={[styles.box, styles.pauseButton]} accessible={true} accessibilityLabel="Pause Camera"/>
-                </TouchableHighlight>
-            </View>
-            
+        <TouchableHighlight onPress={this.props.onClick}  >
+            <Image style={styles.captureButton} accessible={true} accessibilityLabel="Take picture"/>
+        </TouchableHighlight>
         );
     }
 }
@@ -24,22 +18,11 @@ export default class CameraButton extends Component {
 const styles = StyleSheet.create({
   
     captureButton: {
-        
-      //alignItems: 'center',
-      height: box_height,
-      
+      flex: 1,
+      justifyContent: 'flex-end',
+      alignItems: 'center',
+      height: Dimensions.get('window').height,
       width: Dimensions.get('window').width,
-      //backgroundColor: '#fff4be', 
-      backgroundColor:'rgba(0,0,0,0)'
-    },
-    pauseButton: {
-    
-        height: box_height,
-        //alignItems: 'center',
-        
-       
-        width: Dimensions.get('window').width,
-        //backgroundColor: '#4242f4', 
-        backgroundColor:'rgba(0,0,0,0)'
-      }
+      backgroundColor: 'rgba(0,0,0,0)'
+    }
 });
