@@ -107,7 +107,7 @@ export default class App extends Component {
   getJWTToken() {
     
     axios
-      .get("http://192.168.1.98:8080/")
+      .get("http://10.1.10.191:8080/")
       .then((response) => {
         const assertion = response.data
         console.log(response)
@@ -206,7 +206,6 @@ export default class App extends Component {
             type={this.state.cameraType} mirrorImage={this.state.mirrorMode} 
             ref={ref => { this.camera = ref; }} style={styles.preview}>
             <CameraButton onClick={() => {this.takePicture(this.camera)}} />
-            <PauseButton onClick={() => {this.pauseCamera(this.camera)}}/>
           </RNCamera>
       </View>
     );

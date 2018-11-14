@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
       flex: 1,
       justifyContent: 'flex-end',
       alignItems: 'center',
-      height: Dimensions.get('window').height,
+      height: box_height,
       width: Dimensions.get('window').width,
       backgroundColor: 'rgba(0,0,0,0)'
     }

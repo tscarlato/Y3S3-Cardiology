@@ -94,14 +94,15 @@ def enableSeparateBuildPerCPUArchitecture = false
 def enableProguardInReleaseBuilds = false
 
 android {
-    
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
+    buildToolsVersion "27.0.3"
+    compileSdkVersion 28
+    //compileSdkVersion rootProject.ext.compileSdkVersion
+    //buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
         applicationId "com.rncameratest"
         minSdkVersion rootProject.ext.minSdkVersion 
-        targetSdkVersion rootProject.ext.targetSdkVersion 
+        targetSdkVersion 28 //rootProject.ext.targetSdkVersion 
         versionCode 1
         versionName "1.0"
         ndk {
