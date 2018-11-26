@@ -153,6 +153,10 @@ export default class App extends Component {
         this.setState({ mlresults: response.data })
         console.log("setting mlresutls")
       })
+      .catch((error) => {
+
+        console.log(error.response)
+      })
       .then(() => {
         this.speakResults()
         this.takePicture(this.camera) 
@@ -161,7 +165,7 @@ export default class App extends Component {
       })
       .catch((error) => {
 
-        console.log(error.response)
+        console.log(error)
       })
       
   }
