@@ -75,10 +75,11 @@ export default class App extends Component {
         console.log("taking picture")
         
         this.identifyImage(data.base64, camera);
+        
       })
       .catch((e) => {
         // e is the error code
-        console.log(e)
+        console.log(e) 
 
       })
       .finally(() => {
