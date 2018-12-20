@@ -5,7 +5,10 @@ import CameraButton from './CameraButton';
 import axios from 'axios';
 import Tts from 'react-native-tts';
 import KeepAwake from 'react-native-keep-awake';
+import  { YellowBox } from 'react-native';
 import PauseButton from './PauseButton';
+
+YellowBox.ignoreWarnings(['Sending...']);
 
 
 export default class App extends Component {
@@ -45,6 +48,8 @@ export default class App extends Component {
   //     });
   //   }
   // }
+
+  
  
   changeKeepAwake(shouldBeAwake) {
     
@@ -75,11 +80,10 @@ export default class App extends Component {
         console.log("taking picture")
         
         this.identifyImage(data.base64, camera);
-        
       })
       .catch((e) => {
         // e is the error code
-        console.log(e) 
+        console.log(e)
 
       })
       .finally(() => {
@@ -108,7 +112,7 @@ export default class App extends Component {
   getJWTToken() {
     
     axios
-      .get("http://10.1.10.191:8080/")
+      .get("http://192.168.1.98:8080/")
       .then((response) => {
         const assertion = response.data
         console.log(response)
@@ -162,7 +166,6 @@ export default class App extends Component {
         this.speakResults()
         this.takePicture(this.camera) 
         
-
       })
       .catch((error) => {
 
@@ -175,30 +178,76 @@ export default class App extends Component {
     let ADN = [];
     ADN = this.state.mlresults.payload.filter((element) =>
       element.classification.score > 0.9);
-    console.log(ADN);  
-      ADN.map((element) => {
-        console.log("this is ADN.map");
-        if (element.displayName != "Face" && element.displayName != "Black" && element.displayName != "Red" ){
-          console.log(element.displayName);
-          if (element.displayName == "J"){
-          Tts.speak("Jack")
+    console.log(ADN);
+    let results = {}; 
+    ADN.forEach((element) => {
+      if (element.displayName == "J"){
+          results.face = "Jack"
+        }
+        else if ( element.displayName == "A"){
+          results.face = "Ace"
+        }
+        else if (element.displayName == "K"){
+          results.face = "King"
+        }
+        else if (element.displayName == "Q"){
+          results.face = "Queen"
+        }
+        else if (element.displayName.toLowerCase() == "heart") {
+          results.suit = "Hearts"
+        }
+        else if (element.displayName.toLowerCase() == "diamond") {
+          results.suit = "Diamonds"
+        }
+        else if (element.displayName.toLowerCase() == "spade") {
+          results.suit = "Spades"
+        }
+        else if (element.displayName.toLowerCase() == "club") {
+          results.suit = "Clubs"
+        }
+        else {
+          if (element.displayName != "Face" && element.displayName != "Black" && element.displayName != "Red" )
+          {  
+            results.face = element.displayName
           }
-          else if ( element.displayName == "A"){
-            Tts.speak("Ace")
-          }
-          else if (element.displayName == "K"){
-            Tts.speak("King")
-          }
-          else if (element.displayName == "Q"){
-            Tts.speak("Queen")
-          }
-          else {
-            Tts.speak(element.displayName)
-          }
+        }
+    });
+    if(results.face === undefined)
+    {
+      results.face = "Unknown"
+    }
+    if(results.suit === undefined)
+    {
+      results.suit = "Unknown"
+    }
+    if(results.face !== "Unknown" && results.suit !== "Unknown")
+    {
+      Tts.speak(`${results.face} of ${results.suit}`)
+    }
+    
+      // ADN.map((element) => {
+      //   console.log("this is ADN.map");
+      //   if (element.displayName != "Face" && element.displayName != "Black" && element.displayName != "Red" ){
+      //     console.log(element.displayName);
+      //     if (element.displayName == "J"){
+      //     Tts.speak("Jack")
+      //     }
+      //     else if ( element.displayName == "A"){
+      //       Tts.speak("Ace")
+      //     }
+      //     else if (element.displayName == "K"){
+      //       Tts.speak("King")
+      //     }
+      //     else if (element.displayName == "Q"){
+      //       Tts.speak("Queen")
+      //     }
+      //     else {
+      //       Tts.speak(element.displayName)
+      //     }
           
-        }  
+      //   }  
         
-      })
+      // })
   }
 
 //<View >{Alert.alert('How to use Card Whisperer','Hold a playing card over the phone and tap the top half of the screen to start the camera. Wait until your card is read and then hold your next card over the phone. The camera will contnuously take photos unless you tap the bottom half of the screen to pause. Tap the top half of the screen to start the camera again')}</View>
