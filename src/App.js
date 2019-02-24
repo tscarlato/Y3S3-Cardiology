@@ -10,7 +10,6 @@ import PauseButton from './PauseButton';
 
 YellowBox.ignoreWarnings(['Sending...']);
 
-
 export default class App extends Component {
   constructor(props) {
     super(props)
@@ -33,26 +32,9 @@ export default class App extends Component {
     this.takePicture = this.takePicture.bind(this);
     this.speakResults = this.speakResults.bind(this);
     this.pauseCamera = this.pauseCamera.bind(this);
-
-  }
-  // changeCameraType() {
-  //   if (this.state.cameraType === 'back') {
-  //     this.setState({
-  //       cameraType: 'front',
-  //       mirrorMode: true
-  //     });
-  //   } else {
-  //     this.setState({
-  //       cameraType: 'back',
-  //       mirrorMode: false
-  //     });
-  //   }
-  // }
-
-  
+  }  
  
-  changeKeepAwake(shouldBeAwake) {
-    
+  changeKeepAwake(shouldBeAwake) {    
     if (shouldBeAwake) {
       KeepAwake.activate();
     } else {
@@ -60,10 +42,7 @@ export default class App extends Component {
     }
   }
 
- 
-
-  takePicture(camera) {
-    
+  takePicture(camera) {    
     //camera.pausePreview(); // there is curretly a bug with pausePreview which causes takePictureAsync to fail if you call it on Android pre taking a picture
     this.setState({ loading: true });
 
@@ -77,14 +56,12 @@ export default class App extends Component {
     camera.takePictureAsync(options)
       .then(data => {
         // data is your base64 string
-        console.log("taking picture")
-        
+        console.log("taking picture")        
         this.identifyImage(data.base64, camera);
       })
-      .catch((e) => {
+      .catch((error) => {
         // e is the error code
-        console.log(e)
-
+        console.log(error)
       })
       .finally(() => {
         //camera.resumePreview();
@@ -96,11 +73,7 @@ export default class App extends Component {
     //what is this actually doing??
     if ({loading: true}) {
       this.setState({loading: false})
-      
-
-    }
-
-    
+    }    
   }
 
   componentDidMount() {
@@ -109,8 +82,8 @@ export default class App extends Component {
     this.setState({ initialTokenTime: Date.now() })
     this.changeKeepAwake(true)
   }
-  getJWTToken() {
-    
+
+  getJWTToken() {    
     axios
       .get("https://assertion.herokuapp.com/")
       .then((response) => {
@@ -144,8 +117,7 @@ export default class App extends Component {
       }
     };
     console.log("sending")
-    axios({
-      
+    axios({      
       method: 'post',
       url: "https://automl.googleapis.com/v1beta1/projects/totemic-ground-219514/locations/us-central1/models/ICN6280896592581654906:predict",
       headers: {
@@ -159,20 +131,17 @@ export default class App extends Component {
         console.log("setting mlresutls")
       })
       .catch((error) => {
-
         console.log(error.response)
       })
       .then(() => {
         this.speakResults()
-        this.takePicture(this.camera) 
-        
+        this.takePicture(this.camera)        
       })
       .catch((error) => {
-
         console.log(error)
-      })
-      
+      })      
   }
+
   speakResults() {
     console.log("speak those results");
     let ADN = [];
@@ -224,30 +193,6 @@ export default class App extends Component {
     {
       Tts.speak(`${results.face} of ${results.suit}`)
     }
-    
-      // ADN.map((element) => {
-      //   console.log("this is ADN.map");
-      //   if (element.displayName != "Face" && element.displayName != "Black" && element.displayName != "Red" ){
-      //     console.log(element.displayName);
-      //     if (element.displayName == "J"){
-      //     Tts.speak("Jack")
-      //     }
-      //     else if ( element.displayName == "A"){
-      //       Tts.speak("Ace")
-      //     }
-      //     else if (element.displayName == "K"){
-      //       Tts.speak("King")
-      //     }
-      //     else if (element.displayName == "Q"){
-      //       Tts.speak("Queen")
-      //     }
-      //     else {
-      //       Tts.speak(element.displayName)
-      //     }
-          
-      //   }  
-        
-      // })
   }
 
 //<View >{Alert.alert('How to use Card Whisperer','Hold a playing card over the phone and tap the top half of the screen to start the camera. Wait until your card is read and then hold your next card over the phone. The camera will contnuously take photos unless you tap the bottom half of the screen to pause. Tap the top half of the screen to start the camera again')}</View>
