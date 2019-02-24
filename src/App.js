@@ -14,6 +14,8 @@ export default class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      pauseOrUnpause: 'unpause',
+      keepLooping: false;
       loading: false,
       bearerToken: [],
       identifiedAs: '',
@@ -31,7 +33,18 @@ export default class App extends Component {
     this.takePicture = this.takePicture.bind(this);
     this.speakResults = this.speakResults.bind(this);
     this.pauseCamera = this.pauseCamera.bind(this);
+    this.pauseSwitch = this.pauseSwitch.bind(this);
   }  
+
+  pauseSwitch(camera) {
+    if(this.state.pauseOrUnpause === 'unpause')
+    {
+      this.takePicture(camera)
+      this.setState({pauseOrUnpause:'pause'})
+    } else {
+      this.setState({pauseOrUnpause: 'unpause', keepLooping: false})
+    }
+  }
  
   changeKeepAwake(shouldBeAwake) {    
     if (shouldBeAwake) {
@@ -134,7 +147,9 @@ export default class App extends Component {
       })
       .then(() => {
         this.speakResults()
-        this.takePicture(this.camera)        
+        if(this.state.keepLooping === true) {
+          this.takePicture(this.camera)
+        }        
       })
       .catch((error) => {
         console.log(error)
@@ -203,7 +218,7 @@ export default class App extends Component {
           <RNCamera 
             type={this.state.cameraType} mirrorImage={this.state.mirrorMode} 
             ref={ref => { this.camera = ref; }} style={styles.preview}>
-            <CameraButton onClick={() => {this.takePicture(this.camera)}} />
+            <CameraButton onClick={() => {this.pauseSwitch(this.camera)}} />
           </RNCamera>
       </View>
     );
