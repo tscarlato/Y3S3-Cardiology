@@ -112,7 +112,7 @@ export default class App extends Component {
   getJWTToken() {
     
     axios
-      .get("http://192.168.1.98:8080/")
+      .get("https://assertion.herokuapp.com/")
       .then((response) => {
         const assertion = response.data
         console.log(response)
