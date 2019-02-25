@@ -15,7 +15,7 @@ export default class App extends Component {
     super(props)
     this.state = {
       pauseOrUnpause: 'unpause',
-      keepLooping: false;
+      keepLooping: true,
       loading: false,
       bearerToken: [],
       identifiedAs: '',
@@ -40,7 +40,7 @@ export default class App extends Component {
     if(this.state.pauseOrUnpause === 'unpause')
     {
       this.takePicture(camera)
-      this.setState({pauseOrUnpause:'pause'})
+      this.setState({pauseOrUnpause:'pause', keepLooping: true})
     } else {
       this.setState({pauseOrUnpause: 'unpause', keepLooping: false})
     }
